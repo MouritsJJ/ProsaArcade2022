@@ -4,7 +4,10 @@ namespace ProsaDwarfs.Dwarfs
     public interface IDwarf
     {
         public DwarfNames Name { get; }
+        public bool Rand();
+        public void Join();
+        public void Leave();
+        public void Monologue();
         public void React(IDwarf dwarf);
-        public void React();
     }
 }

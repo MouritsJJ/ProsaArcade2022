@@ -27,7 +27,7 @@ namespace ProsaDwarfs.Core
             {
                 IDwarf d = new Dwarf(dwarf, this);
                 Dwarfs.Add(d);
-                Reactions.JoinReaction[d.Name]();
+                d.Join();
             }
         }
 
@@ -37,7 +37,7 @@ namespace ProsaDwarfs.Core
             {
                 IDwarf d = Dwarfs.Find(d => d.Name == dwarf);
                 Dwarfs.Remove(d);
-                Reactions.LeaveReaction[d.Name]();
+                d.Leave();
             }
         }
 
@@ -54,13 +54,13 @@ namespace ProsaDwarfs.Core
                 for (d = 0; d < Dwarfs.Count - 1; ++d)
                 {
                     // Random reactions
-                    foreach (IDwarf dwarf in Dwarfs) if (Reactions.RandomReaction[dwarf.Name]()) break;
+                    foreach (IDwarf dwarf in Dwarfs) if (dwarf.Rand()) break;
 
                     // Original reaction
-                    Reactions.DoubleReaction[Dwarfs[d].Name](Dwarfs[d + 1]);
+                    Dwarfs[d].React(Dwarfs[d + 1]);
                 }
                 // Last in list reaction
-                Reactions.DoubleReaction[Dwarfs[d].Name]();
+                Dwarfs[d].Monologue();
             }
         }
 
