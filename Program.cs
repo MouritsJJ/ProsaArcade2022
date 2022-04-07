@@ -1,4 +1,4 @@
-﻿using ProsaDwarfs.Core:
+﻿using ProsaDwarfs.Core;
 
 namespace ProsaDwarfs
 {
