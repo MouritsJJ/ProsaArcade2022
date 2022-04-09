@@ -28,6 +28,7 @@ namespace ProsaDwarfs.Core
                 IDwarf d = new Dwarf(dwarf, this);
                 Dwarfs.Add(d);
                 d.Join();
+                PrintDwarfs();
             }
         }
 
@@ -38,13 +39,14 @@ namespace ProsaDwarfs.Core
                 IDwarf d = Dwarfs.Find(d => d.Name == dwarf);
                 Dwarfs.Remove(d);
                 d.Leave();
+                PrintDwarfs();
             }
         }
 
         public void Start()
         {
-            this.AddDwarf(this.GetNewDwarf());
-            this.AddDwarf(this.GetNewDwarf());
+            this.Dwarfs.Add(new Dwarf(this.GetNewDwarf(), this));
+            this.Dwarfs.Add(new Dwarf(this.GetNewDwarf(), this));
 
             this.PrintDwarfs();
             while (Dwarfs.Count != 0)
@@ -71,12 +73,11 @@ namespace ProsaDwarfs.Core
 
         private void PrintDwarfs()
         {
-            string msg = "[ ";
+            string msg = "\n[ ";
             foreach (IDwarf d in Dwarfs.SkipLast(1)) 
                 msg += $"{d.Name.ToString()}, ";
-            msg += $"{Dwarfs.Last().Name.ToString()} ]";
+            msg += $"{Dwarfs.Last().Name.ToString()} ]\n";
             this.WriteMsg(msg);
-        }
+        } 
     }
-
 }
