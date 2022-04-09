@@ -30,27 +30,35 @@ namespace ProsaDwarfs.Dwarfs
 
         public void Join()
         {
-            throw new NotImplementedException();
+            int r = Rng.Next(0, JoinReaction.Count);
+            JoinReaction[r]();
         }
 
         public void Leave()
         {
-            throw new NotImplementedException();
+            int r = Rng.Next(0, LeaveReaction.Count);
+            LeaveReaction[r]();
         }
 
         public void Monologue()
         {
-            throw new NotImplementedException();
+            int r = Rng.Next(0, MonoReaction.Count);
+            MonoReaction[r]();
         }
 
         public bool Rand()
         {
-            throw new NotImplementedException();
+            int c = Rng.Next(0, 100);
+            if (c >= 10) return false;
+            int r = Rng.Next(0, RandomReaction.Count);
+            RandomReaction[r]();
+            return true;
         }
 
         public void React(IDwarf dwarf)
         {
-            throw new NotImplementedException();
+            int r = Rng.Next(0, DoubleReaction.Count);
+            DoubleReaction[r](dwarf.Name);
         }
 
         private void Msg(object msg)
