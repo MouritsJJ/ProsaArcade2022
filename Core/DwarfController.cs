@@ -16,6 +16,7 @@ namespace ProsaDwarfs.Core
         public DwarfNames GetNewDwarf()
         {
             int d = rng.Next(0, 7);
+            if (Dwarfs.Count == Enum.GetNames(typeof(DwarfNames)).Count()) return (DwarfNames)d;
             while (Dwarfs.Select(d => d.Name).Contains((DwarfNames)d))
                 d = rng.Next(0, 7);
             return (DwarfNames)d;
@@ -62,7 +63,7 @@ namespace ProsaDwarfs.Core
                     Dwarfs[d].React(Dwarfs[d + 1]);
                 }
                 // Last in list reaction
-                Dwarfs[d].Monologue();
+                if (Dwarfs.Count > 0) Dwarfs.Last().Monologue();
             }
         }
 
