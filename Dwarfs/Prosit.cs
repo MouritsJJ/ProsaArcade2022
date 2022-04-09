@@ -1,5 +1,3 @@
-using ProsaDwarfs.Core;
-
 namespace ProsaDwarfs.Dwarfs
 {
     public partial class Dwarf
