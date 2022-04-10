@@ -37,7 +37,7 @@ namespace ProsaDwarfs.Core
         {
             if (Dwarfs.Select(d => d.Name).Contains(dwarf))
             {
-                IDwarf d = Dwarfs.Find(d => d.Name == dwarf);
+                IDwarf? d = Dwarfs.Find(d => d.Name == dwarf);
                 Dwarfs.Remove(d);
                 d.Leave();
                 PrintDwarfs();
@@ -61,6 +61,7 @@ namespace ProsaDwarfs.Core
 
                     // Original reaction
                     Dwarfs[d].React(Dwarfs[d + 1]);
+                    this.WriteMsg("\n");
                 }
                 // Last in list reaction
                 if (Dwarfs.Count > 0) Dwarfs.Last().Monologue();
