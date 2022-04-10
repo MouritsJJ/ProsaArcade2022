@@ -56,35 +56,31 @@ namespace ProsaDwarfs.Core
             this.Dwarfs.Add(new Dwarf(this.GetNewDwarf(), this));
 
             this.PrintDwarfs();
-            while (Dwarfs.Count != 0)
+            int DCounter = -1;
+            while(Counter < 3 && Dwarfs.Count > 0)
             {
-                // Chain reaction
-                int DCounter = 0;
-                while(Counter < 3 && Dwarfs.Count > 0)
-                {
-                    int d = DCounter % Dwarfs.Count;
-                    // Random reactions
-                    foreach (IDwarf dwarf in Dwarfs) if (dwarf.Rand()) break;
-                    if (!SnowWhiteLeave()) SnowWhiteJoin();
+                int d = ++DCounter % Dwarfs.Count;
+                // Random reactions
+                foreach (IDwarf dwarf in Dwarfs) if (dwarf.Rand()) break;
+                if (!SnowWhiteLeave()) SnowWhiteJoin();
 
-                    // Original reaction
-                    if (d + 1 < Dwarfs.Count) Dwarfs[d].React(Dwarfs[d + 1]);
-                    // Last in list
-                    else if (d + 1 == Dwarfs.Count) Dwarfs[d].Monologue();
-                    this.WriteMsg("");
-                    Console.ReadKey();
-                    Counter++;
-                }
-                // Nothing changes for more than 3 reaction rounds
-                if (Counter >= 3)
-                {
-                    this.WriteMsg("Snehvide spottes ud af vinduet!");
-                    this.WriteMsg("Alle dværge løber straks efter hende.");
-                    this.WriteMsg("");
-                    int c = Dwarfs.Count;
-                    for (int dwar = 0; dwar < c; ++dwar) this.RemoveDwarf(Dwarfs[0].Name);
-                    return;
-                }
+                // Original reaction
+                if (d + 1 < Dwarfs.Count) Dwarfs[d].React(Dwarfs[d + 1]);
+                // Last in list
+                else if (d + 1 == Dwarfs.Count) Dwarfs[d].Monologue();
+                this.WriteMsg("");
+                Console.ReadKey();
+                Counter++;
+            }
+            // Nothing changes for more than 3 reaction rounds
+            if (Counter >= 3)
+            {
+                this.WriteMsg("Snehvide spottes ud af vinduet!");
+                this.WriteMsg("Alle dværge løber straks efter hende.");
+                this.WriteMsg("");
+                int c = Dwarfs.Count;
+                for (int dwar = 0; dwar < c; ++dwar) this.RemoveDwarf(Dwarfs[0].Name);
+                return;
             }
         }
 
@@ -95,6 +91,7 @@ namespace ProsaDwarfs.Core
 
         private void PrintDwarfs()
         {
+            if (Dwarfs.Count == 0) return;
             string msg = "\n[ ";
             foreach (IDwarf d in Dwarfs.SkipLast(1)) 
                 msg += $"{d.Name.ToString()}, ";

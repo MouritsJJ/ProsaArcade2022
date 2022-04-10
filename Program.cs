@@ -15,7 +15,7 @@ namespace ProsaDwarfs
 
                 c.Start();
 
-                Console.WriteLine("The End!\n");
+                Console.WriteLine("\nThe End!\n");
 
                 Console.Write("Would you like to meet The Seven Dwarfs again? [y/n] : ");
                 string? ans = Console.ReadLine();
