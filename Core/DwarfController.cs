@@ -4,6 +4,8 @@ namespace ProsaDwarfs.Core
 {
     public class DwarfController : IController
     {
+        private int SnowWhiteChance = 5;
+        private int Counter = 0;
         private List<IDwarf> Dwarfs = new List<IDwarf>();
         private Random rng = new Random();
 
@@ -30,6 +32,8 @@ namespace ProsaDwarfs.Core
                 Dwarfs.Add(d);
                 d.Join();
                 PrintDwarfs();
+                Counter = 0;
+                Console.ReadKey();
             }
         }
 
@@ -41,6 +45,8 @@ namespace ProsaDwarfs.Core
                 Dwarfs.Remove(d);
                 d.Leave();
                 PrintDwarfs();
+                Counter = 0;
+                Console.ReadKey();
             }
         }
 
@@ -58,14 +64,27 @@ namespace ProsaDwarfs.Core
                 {
                     // Random reactions
                     foreach (IDwarf dwarf in Dwarfs) if (dwarf.Rand()) break;
+                    if (!SnowWhiteLeave()) SnowWhiteJoin();
 
                     // Original reaction
                     Dwarfs[d].React(Dwarfs[d + 1]);
-                    this.WriteMsg("\n");
+                    this.WriteMsg("");
                 }
                 // Last in list reaction
                 if (Dwarfs.Count > 0) Dwarfs.Last().Monologue();
+                this.WriteMsg("");
                 Console.ReadKey();
+
+                // Nothing changes for more than 3 reaction rounds
+                Counter++;
+                if (Counter > 3)
+                {
+                    this.WriteMsg("Snehvide spottes ud af vinduet!");
+                    this.WriteMsg("Alle dværge løber straks efter hende.");
+                    this.WriteMsg("");
+                    for (int dwar = 0; dwar < Dwarfs.Count; ++dwar) this.RemoveDwarf(Dwarfs[dwar].Name);
+                    return;
+                }
             }
         }
 
@@ -79,8 +98,29 @@ namespace ProsaDwarfs.Core
             string msg = "\n[ ";
             foreach (IDwarf d in Dwarfs.SkipLast(1)) 
                 msg += $"{d.Name.ToString()}, ";
-            msg += $"{Dwarfs.Last().Name.ToString()} ]\n";
+            if (Dwarfs.Count > 0) msg += $"{Dwarfs.Last().Name.ToString()}";
+            msg += "]\n";
             this.WriteMsg(msg);
-        } 
+        }
+
+        private bool SnowWhiteLeave()
+        {
+            int c = rng.Next(0, 100);
+            if (c >= SnowWhiteChance) return false;
+            DwarfNames d = (DwarfNames)rng.Next(0, Dwarfs.Count);
+            this.WriteMsg($"{d} synes han ser Snehvide udenfor og lister derfor stille ud for at prøve at få alenetid med hende");
+            this.RemoveDwarf(d);
+            return true;
+        }
+
+        private bool SnowWhiteJoin()
+        {
+            int c = rng.Next(0, 100);
+            if (c >= SnowWhiteChance) return false;
+            this.WriteMsg("Snehvide åbner døren ind til dværgene");
+            this.WriteMsg("Alle er straks klar på at være med");
+            foreach (DwarfNames d in Enum.GetValues(typeof(DwarfNames))) this.AddDwarf(d);
+            return true;
+        }
     }
 }

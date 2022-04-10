@@ -76,14 +76,17 @@ namespace ProsaDwarfs.Dwarfs
         }
         void BashfulMono3()
         {
+            DwarfNames d = (DwarfNames)Rng.Next(0, 7);
             Msg("Hvis bare Snehvide var her, så ville de andre være søde mod mig");
+            Controller.WriteMsg($"{d}: Hørte jeg Snehvide?!");
+            Controller.RemoveDwarf(d);
         }
         #endregion
 
         #region Double
         void BashfulDouble1(DwarfNames dwarf)
         {
-            Msg($"Hey {dwarf} ser lige her");
+            Msg($"Hey {dwarf} se lige her");
             Controller.WriteMsg($"{Name} trækker {dwarf} ind i sæt skæg");
             Controller.RemoveDwarf(dwarf);
         }

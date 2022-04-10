@@ -66,6 +66,8 @@ namespace ProsaDwarfs.Dwarfs
         void GrumpyMono1()
         {
             Msg("Denne verden er for glad til mig.");
+            Controller.WriteMsg($"{Name} forlader rummet");
+            Controller.RemoveDwarf(Name);
         }
         void GrumpyMono2()
         {

@@ -70,7 +70,10 @@ namespace ProsaDwarfs.Dwarfs
         #region Mono
         void DopeyMono1()
         {
+            DwarfNames d = Controller.GetNewDwarf();
             Controller.WriteMsg($"{Name} prøver at sætte sig på en stol, men rammer ved siden af og slår røvet i gulvet.");
+            Controller.WriteMsg($"{d} hører påstyret");
+            Controller.AddDwarf(d);
         }
         void DopeyMono2()
         {
@@ -78,8 +81,10 @@ namespace ProsaDwarfs.Dwarfs
         }
         void DopeyMono3()
         {
+            DwarfNames d = (DwarfNames)Rng.Next(0, 7);
             Controller.WriteMsg($"{Name} føler sig som en ny dværg...");
-            Controller.WriteMsg("BONK! Det var han så ikke, må det konkluderes med sit ansigt mod døren");
+            Controller.WriteMsg($"BONK! Det var han så ikke, må det konkluderes med sit ansigt mod {d}s røv");
+            Controller.AddDwarf(d);
         }
         #endregion
 

@@ -77,14 +77,21 @@ namespace ProsaDwarfs.Dwarfs
         void DocMono1()
         {
             Msg("Det kan ikke være sandt jeg omgås er sådan en flok tåber.");
+            Msg("Jeg vil ikke mere!");
+            Controller.RemoveDwarf(Name);
         }
         void DocMono2()
         {
-            Msg("Hvordan kan jeg være sidst? Jeg er lederen, jeg bør være først".Reverse());
+            string msg = "Hvordan kan jeg være sidst? Jeg er lederen, jeg bør være først";
+            Array.Reverse(msg.ToCharArray());
+            Msg(new String(msg));
         }
         void DocMono3()
         {
+            DwarfNames d = Controller.GetNewDwarf();
             Msg("Det må være tid til at slibe min kniv igen.");
+            Msg($"Jeg skal lige bruge dig {d}");
+            Controller.AddDwarf(d);
         }
         #endregion
 
@@ -92,10 +99,12 @@ namespace ProsaDwarfs.Dwarfs
         void DocDouble1(DwarfNames dwarf)
         {
             Msg($"Hey {dwarf}, kan jeg få lov at teste min nye operationskniv på dig?");
+            Controller.WriteMsg($"{dwarf} løber i frygt for {Name}");
+            Controller.RemoveDwarf(dwarf);
         }
         void DocDouble2(DwarfNames dwarf)
         {
-            Msg($"Vidste du, mine fine {dwarf}, at det ikke mine briller der gør mig klogere end dig?");
+            Msg($"Vidste du, min fine {dwarf}, at det ikke mine briller der gør mig klogere end dig?");
         }
         void DocDouble3(DwarfNames dwarf)
         {

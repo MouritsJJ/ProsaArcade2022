@@ -4,7 +4,7 @@ namespace ProsaDwarfs.Dwarfs
 {
     public partial class Dwarf : IDwarf
     {
-        private int RandomChance = 30;
+        private int RandomChance = 10;
         public DwarfNames Name { get; }
         private IController Controller;
         private Random Rng = new Random();
