@@ -64,6 +64,7 @@ namespace ProsaDwarfs.Core
                 }
                 // Last in list reaction
                 if (Dwarfs.Count > 0) Dwarfs.Last().Monologue();
+                Console.ReadKey();
             }
         }
 

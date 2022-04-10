@@ -4,6 +4,7 @@ namespace ProsaDwarfs.Dwarfs
 {
     public partial class Dwarf : IDwarf
     {
+        private int RandomChance = 30;
         public DwarfNames Name { get; }
         private IController Controller;
         private Random Rng = new Random();
@@ -49,7 +50,7 @@ namespace ProsaDwarfs.Dwarfs
         public bool Rand()
         {
             int c = Rng.Next(0, 100);
-            if (c >= 10) return false;
+            if (c >= RandomChance) return false;
             int r = Rng.Next(0, RandomReaction.Count);
             RandomReaction[r]();
             return true;
