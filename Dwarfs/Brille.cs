@@ -67,7 +67,7 @@ namespace ProsaDwarfs.Dwarfs
         }
         void DocLeave3()
         {
-            Msg("Det her er en svær stund for mig, men en rigtig leder må problemet i øjnene.");
+            Msg("Det her er en svær stund for mig, men en rigtig leder må se problemet i øjnene.");
             Msg("...");
             Msg("Og denne gang er problemet mig.");
         }

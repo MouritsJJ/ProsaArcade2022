@@ -59,30 +59,30 @@ namespace ProsaDwarfs.Core
             while (Dwarfs.Count != 0)
             {
                 // Chain reaction
-                int d;
-                for (d = 0; d < Dwarfs.Count - 1; ++d)
+                int DCounter = 0;
+                while(Counter < 3 && Dwarfs.Count > 0)
                 {
+                    int d = DCounter % Dwarfs.Count;
                     // Random reactions
                     foreach (IDwarf dwarf in Dwarfs) if (dwarf.Rand()) break;
                     if (!SnowWhiteLeave()) SnowWhiteJoin();
 
                     // Original reaction
-                    Dwarfs[d].React(Dwarfs[d + 1]);
+                    if (d + 1 < Dwarfs.Count) Dwarfs[d].React(Dwarfs[d + 1]);
+                    // Last in list
+                    else if (d + 1 == Dwarfs.Count) Dwarfs[d].Monologue();
                     this.WriteMsg("");
+                    Console.ReadKey();
+                    Counter++;
                 }
-                // Last in list reaction
-                if (Dwarfs.Count > 0) Dwarfs.Last().Monologue();
-                this.WriteMsg("");
-                Console.ReadKey();
-
                 // Nothing changes for more than 3 reaction rounds
-                Counter++;
-                if (Counter > 3)
+                if (Counter >= 3)
                 {
                     this.WriteMsg("Snehvide spottes ud af vinduet!");
                     this.WriteMsg("Alle dværge løber straks efter hende.");
                     this.WriteMsg("");
-                    for (int dwar = 0; dwar < Dwarfs.Count; ++dwar) this.RemoveDwarf(Dwarfs[dwar].Name);
+                    int c = Dwarfs.Count;
+                    for (int dwar = 0; dwar < c; ++dwar) this.RemoveDwarf(Dwarfs[0].Name);
                     return;
                 }
             }
@@ -99,7 +99,7 @@ namespace ProsaDwarfs.Core
             foreach (IDwarf d in Dwarfs.SkipLast(1)) 
                 msg += $"{d.Name.ToString()}, ";
             if (Dwarfs.Count > 0) msg += $"{Dwarfs.Last().Name.ToString()}";
-            msg += "]\n";
+            msg += " ]\n";
             this.WriteMsg(msg);
         }
 

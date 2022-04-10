@@ -20,7 +20,7 @@ namespace ProsaDwarfs.Dwarfs
         }
         void GrumpyRan2()
         {
-            Msg("Man kunne vel sende en pande flyevende, bare for at se, hvad der sker?");
+            Msg("Man kunne vel sende en pande flyvende, bare for at se, hvad der sker?");
         }
         void GrumpyRan3()
         {
