@@ -100,7 +100,7 @@ namespace ProsaDwarfs.Dwarfs
         void SleepyDouble3(DwarfNames dwarf)
         {
             Controller.WriteMsg($"Efter gentagne forsøg har {Name} stadig svært ved at sove. Han beder derfor {dwarf} om en tjeneste");
-            Msg($"Giv mig lige et BONK med dette bat vil du {dwarf}, det må altså hjælpe");
+            Msg($"Giv mig lige et BONK med dette bat vil du {dwarf}? Det må altså hjælpe");
             Controller.WriteMsg($"{dwarf} forstår ikke helt pointen, men giver den alligevel hele armen. BONK!");
             Controller.RemoveDwarf(Name);
         }

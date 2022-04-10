@@ -78,7 +78,7 @@ namespace ProsaDwarfs.Dwarfs
         {
             DwarfNames d = (DwarfNames)Rng.Next(0, 7);
             Msg("Hvis bare Snehvide var her, så ville de andre være søde mod mig");
-            Controller.WriteMsg($"{d}: Hørte jeg Snehvide?!");
+            Controller.WriteMsg($"{d}: Hørte jeg Snehvide?! Og væk var {d} igen");
             Controller.RemoveDwarf(d);
         }
         #endregion
