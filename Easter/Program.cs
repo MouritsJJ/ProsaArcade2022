@@ -9,9 +9,9 @@ namespace Easter
         public static void Main(string[] args)
         {
             bool running = true;
-            App app = new App(640, 480);
+            App app = new App(1280, 960, 40);
             Setup(app);
-            CreateBG(app);
+            LoadResources(app);
 
             while (running)
             {

@@ -29,12 +29,30 @@ namespace Easter.Core
     
         public static void Render(App app)
         {
-            // Sets the color that the screen will be cleared with.
-            // SDL_SetRenderDrawColor(app.Renderer, 135, 206, 235, 255);
-
             // Clears the current render surface.
             SDL_RenderClear(app.Renderer);
+
+            // Render bagground tiles
             SDL_RenderCopy(app.Renderer, app.BG, IntPtr.Zero, IntPtr.Zero);
+
+            // Render eggs at different coords
+            int e = 0;
+            var rec = new SDL_Rect();
+            foreach (var egg in app.Eggs)
+            {
+                rec = new SDL_Rect(){ h = app.TileSize, w = app.TileSize, x = app.TileSize*e++ };
+                SDL_RenderCopy(app.Renderer, egg, IntPtr.Zero, ref rec);
+            }
+
+            // Render bunny textures
+            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            SDL_RenderCopy(app.Renderer, app.Bunny.North, IntPtr.Zero, ref rec);
+            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            SDL_RenderCopy(app.Renderer, app.Bunny.East, IntPtr.Zero, ref rec);
+            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            SDL_RenderCopy(app.Renderer, app.Bunny.South, IntPtr.Zero, ref rec);
+            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            SDL_RenderCopy(app.Renderer, app.Bunny.West, IntPtr.Zero, ref rec);
 
             // Switches out the currently presented render surface with the one we just did work on.
             SDL_RenderPresent(app.Renderer);
@@ -111,6 +129,19 @@ namespace Easter.Core
                 Console.WriteLine($"There was an issue creating the texture. {SDL_GetError()}");
             }
             return texture;
+        }
+    
+        public static IntPtr CreateTextureFromPos(IntPtr renderer, SDL_Rect src, SDL_Rect dst, string path)
+        {
+            var tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_UNKNOWN, 2, dst.w, dst.h);
+            var p = SDL_GetRenderTarget(renderer);
+
+            var img = CreateTexture(renderer, CreateImgSurface(path));
+            SDL_SetRenderTarget(renderer, tex);
+            SDL_RenderCopy(renderer, img, ref src, ref dst);
+            SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
+            SDL_SetRenderTarget(renderer, p);
+            return tex;
         }
     }
 }
