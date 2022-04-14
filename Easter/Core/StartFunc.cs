@@ -65,24 +65,33 @@ namespace Easter.Core
     
         private static void LoadBunny(App app)
         {
-            string path = "res/pic/bunny.png";
+            string path = "res/pic/bunny_";
 
             app.Bunny.East = CreateTextureFromPos(app.Renderer,
-                new SDL_Rect() { w = 32, h = 32, x = 1*32, y = 2*32 },
+                new SDL_Rect() { w = 50, h = 50 },
                 new SDL_Rect() { w = app.TileSize, h = app.TileSize },
-                path);
+                path + "east.png");
             app.Bunny.West = CreateTextureFromPos(app.Renderer,
-                new SDL_Rect() { w = 32, h = 32, x = 1*32, y = 1*32 },
+                new SDL_Rect() { w = 50, h = 50 },
                 new SDL_Rect() { w = app.TileSize, h = app.TileSize },
-                path);
+                path + "west.png");
             app.Bunny.North = CreateTextureFromPos(app.Renderer,
-                new SDL_Rect() { w = 32, h = 32, x = 1*32, y = 3*32 },
+                new SDL_Rect() { w = 50, h = 50 },
                 new SDL_Rect() { w = app.TileSize, h = app.TileSize },
-                path);
+                path + "north.png");
             app.Bunny.South = CreateTextureFromPos(app.Renderer,
-                new SDL_Rect() { w = 32, h = 32, x = 1*32, y = 0*32 },
+                new SDL_Rect() { w = 50, h = 50 },
                 new SDL_Rect() { w = app.TileSize, h = app.TileSize },
-                path);
+                path + "south.png");
+            app.Bunny.Texture = app.Bunny.South;
+            
+            app.Bunny.Pos = new SDL_Rect()
+            {
+                h = 2*app.TileSize,
+                w = 2*app.TileSize,
+                x = (app.Width / 2) - app.TileSize,
+                y = (app.Height / 2) + app.TileSize
+            };
         }
 
     }

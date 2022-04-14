@@ -4,11 +4,13 @@ namespace Easter.Objects
 {
     public class App
     {
-        public App(int width, int height, int tileSize)
+        public App(int width, int height, int tileSize, int velocity, int fPS)
         {
             Width = width;
             Height = height;
             TileSize = tileSize;
+            Velocity = velocity;
+            FPS = fPS;
         }
 
         public IntPtr Window { get; set; }
@@ -18,6 +20,8 @@ namespace Easter.Objects
         public int Width { get; set; }
         public int Height { get; set; }
         public int TileSize { get; set; }
+        public int Velocity { get; set; }
+        public int FPS { get; set; }
         public Bunny Bunny { get; set; } = new Bunny();
     }
 }

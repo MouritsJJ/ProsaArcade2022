@@ -13,20 +13,66 @@ namespace Easter.Core
             app.Renderer = CreateRenderer(app.Window);
         }
     
-        public static void PollEvents(ref bool running)
+        public static void PollEvents(ref bool running, App app)
         {
             // Check to see if there are any events and continue to do so until the queue is empty.
-            while (SDL_PollEvent(out SDL_Event e) == 1)
+            SDL_PollEvent(out SDL_Event e);
+            bool keydown = false;
+            bool keyup = false;
+            switch (e.type)
             {
-                switch (e.type)
-                {
-                    case SDL_EventType.SDL_QUIT:
-                        running = false;
-                        break;
-                }
+                case SDL_EventType.SDL_QUIT:
+                    running = false;
+                    break;
+                case SDL_EventType.SDL_KEYDOWN:
+                    keydown = true;
+                    break;
+                case SDL_EventType.SDL_KEYUP:
+                    keyup = true;
+                    break;
+                default:
+                    app.Bunny.VelX = 0;
+                    app.Bunny.VelY = 0;
+                    break;
             }
+            if (keydown) switch (e.key.keysym.sym)
+            {
+                case SDL_Keycode.SDLK_w: case SDL_Keycode.SDLK_UP:
+                    app.Bunny.Up = true;
+                    break;
+                case SDL_Keycode.SDLK_s: case SDL_Keycode.SDLK_DOWN:
+                    app.Bunny.Down = true;
+                    break;
+                case SDL_Keycode.SDLK_a: case SDL_Keycode.SDLK_LEFT:
+                    app.Bunny.Left = true;
+                    break;
+                case SDL_Keycode.SDLK_d: case SDL_Keycode.SDLK_RIGHT:
+                    app.Bunny.Right = true;
+                    break;
+            }
+            if (keyup) switch (e.key.keysym.sym)
+            {
+                case SDL_Keycode.SDLK_w: case SDL_Keycode.SDLK_UP:
+                    app.Bunny.Up = false;
+                    break;
+                case SDL_Keycode.SDLK_s: case SDL_Keycode.SDLK_DOWN:
+                    app.Bunny.Down = false;
+                    break;
+                case SDL_Keycode.SDLK_a: case SDL_Keycode.SDLK_LEFT:
+                    app.Bunny.Left = false;
+                    break;
+                case SDL_Keycode.SDLK_d: case SDL_Keycode.SDLK_RIGHT:
+                    app.Bunny.Right = false;
+                    break;
+            }
+            // SDL_FlushEvents(SDL_EventType.SDL_FIRSTEVENT, SDL_EventType.SDL_LASTEVENT);
         }
     
+        public static void UpdateApp(App app)
+        {
+            app.Bunny.UpdatePos(app);
+        }
+
         public static void Render(App app)
         {
             // Clears the current render surface.
@@ -44,15 +90,16 @@ namespace Easter.Core
                 SDL_RenderCopy(app.Renderer, egg, IntPtr.Zero, ref rec);
             }
 
-            // Render bunny textures
-            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            SDL_RenderCopy(app.Renderer, app.Bunny.North, IntPtr.Zero, ref rec);
-            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            SDL_RenderCopy(app.Renderer, app.Bunny.East, IntPtr.Zero, ref rec);
-            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            SDL_RenderCopy(app.Renderer, app.Bunny.South, IntPtr.Zero, ref rec);
-            rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            SDL_RenderCopy(app.Renderer, app.Bunny.West, IntPtr.Zero, ref rec);
+            // Render Bunny
+            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            // SDL_RenderCopy(app.Renderer, app.Bunny.North, IntPtr.Zero, ref rec);
+            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            // SDL_RenderCopy(app.Renderer, app.Bunny.East, IntPtr.Zero, ref rec);
+            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            // SDL_RenderCopy(app.Renderer, app.Bunny.South, IntPtr.Zero, ref rec);
+            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
+            // SDL_RenderCopy(app.Renderer, app.Bunny.West, IntPtr.Zero, ref rec);
+            SDL_RenderCopy(app.Renderer, app.Bunny.Texture, IntPtr.Zero, ref app.Bunny.Pos);
 
             // Switches out the currently presented render surface with the one we just did work on.
             SDL_RenderPresent(app.Renderer);
@@ -142,6 +189,14 @@ namespace Easter.Core
             SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
             SDL_SetRenderTarget(renderer, p);
             return tex;
+        }
+    
+        public static void BlockingBorders(App app, ref SDL_Rect rec)
+        {
+            if (rec.x < 0) rec.x = 0;
+            if (rec.x + rec.w > app.Width) rec.x = app.Width - rec.w;
+            if (rec.y < 0) rec.y = 0;
+            if (rec.y + rec.h > app.Height) rec.y = app.Height - rec.h;
         }
     }
 }
