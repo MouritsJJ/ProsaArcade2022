@@ -12,6 +12,7 @@ namespace Easter.Core
             CreateBG(app);
             LoadEggs(app);
             LoadBunny(app);
+            LoadBump(app);
         }
         private static void CreateBG(App app)
         {
@@ -94,5 +95,13 @@ namespace Easter.Core
             };
         }
 
+        private static void LoadBump(App app)
+        {
+            string path = "res/pic/earth_bump.png";
+            app.EarthBump = CreateTextureFromPos(app.Renderer,
+                new SDL_Rect() { w = 50, h = 14, y = 50 - 14 },
+                new SDL_Rect() { w = 40, h = 11 },
+                path);
+        }
     }
 }

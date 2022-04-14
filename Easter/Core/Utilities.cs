@@ -91,15 +91,11 @@ namespace Easter.Core
             }
 
             // Render Bunny
-            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            // SDL_RenderCopy(app.Renderer, app.Bunny.North, IntPtr.Zero, ref rec);
-            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            // SDL_RenderCopy(app.Renderer, app.Bunny.East, IntPtr.Zero, ref rec);
-            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            // SDL_RenderCopy(app.Renderer, app.Bunny.South, IntPtr.Zero, ref rec);
-            // rec = new SDL_Rect(){ h = app.TileSize*2, w = app.TileSize*2, x = 2*app.TileSize*e++, y = 2*app.TileSize };
-            // SDL_RenderCopy(app.Renderer, app.Bunny.West, IntPtr.Zero, ref rec);
             SDL_RenderCopy(app.Renderer, app.Bunny.Texture, IntPtr.Zero, ref app.Bunny.Pos);
+
+            // Render Bump
+            rec = new SDL_Rect() { h = 11, w = app.TileSize, x = app.TileSize*e++ };
+            SDL_RenderCopy(app.Renderer, app.EarthBump, IntPtr.Zero, ref rec);
 
             // Switches out the currently presented render surface with the one we just did work on.
             SDL_RenderPresent(app.Renderer);

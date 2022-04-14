@@ -10,7 +10,7 @@ namespace Easter
         public static void Main(string[] args)
         {
             bool running = true;
-            App app = new App(1280, 960, 40, 8, 60);
+            App app = new App(1280, 960, 40, 8, 60, 5);
             Setup(app);
             LoadResources(app);
 
