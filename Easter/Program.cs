@@ -1,6 +1,6 @@
-﻿using SDL2;
-using static Easter.Core.SDLHelper;
-using Easter.Core;
+﻿using static Easter.Core.Utilities;
+using static Easter.Core.StartFunc;
+using Easter.Objects;
 
 namespace Easter
 {
@@ -9,8 +9,9 @@ namespace Easter
         public static void Main(string[] args)
         {
             bool running = true;
-            App app = new App();
+            App app = new App(640, 480);
             Setup(app);
+            CreateBG(app);
 
             while (running)
             {
