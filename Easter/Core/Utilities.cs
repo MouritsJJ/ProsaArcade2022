@@ -1,5 +1,6 @@
 using static SDL2.SDL;
 using static SDL2.SDL_image;
+using static SDL2.SDL_ttf;
 using Easter.Objects;
 
 namespace Easter.Core
@@ -13,96 +14,14 @@ namespace Easter.Core
             app.Renderer = CreateRenderer(app.Window);
         }
     
-        public static void PollEvents(ref bool running, App app)
-        {
-            // Check to see if there are any events and continue to do so until the queue is empty.
-            SDL_PollEvent(out SDL_Event e);
-            bool keydown = false;
-            bool keyup = false;
-            switch (e.type)
-            {
-                case SDL_EventType.SDL_QUIT:
-                    running = false;
-                    break;
-                case SDL_EventType.SDL_KEYDOWN:
-                    keydown = true;
-                    break;
-                case SDL_EventType.SDL_KEYUP:
-                    keyup = true;
-                    break;
-                default:
-                    app.Bunny.VelX = 0;
-                    app.Bunny.VelY = 0;
-                    break;
-            }
-            if (keydown) switch (e.key.keysym.sym)
-            {
-                case SDL_Keycode.SDLK_w: case SDL_Keycode.SDLK_UP:
-                    app.Bunny.Up = true;
-                    break;
-                case SDL_Keycode.SDLK_s: case SDL_Keycode.SDLK_DOWN:
-                    app.Bunny.Down = true;
-                    break;
-                case SDL_Keycode.SDLK_a: case SDL_Keycode.SDLK_LEFT:
-                    app.Bunny.Left = true;
-                    break;
-                case SDL_Keycode.SDLK_d: case SDL_Keycode.SDLK_RIGHT:
-                    app.Bunny.Right = true;
-                    break;
-            }
-            if (keyup) switch (e.key.keysym.sym)
-            {
-                case SDL_Keycode.SDLK_w: case SDL_Keycode.SDLK_UP:
-                    app.Bunny.Up = false;
-                    break;
-                case SDL_Keycode.SDLK_s: case SDL_Keycode.SDLK_DOWN:
-                    app.Bunny.Down = false;
-                    break;
-                case SDL_Keycode.SDLK_a: case SDL_Keycode.SDLK_LEFT:
-                    app.Bunny.Left = false;
-                    break;
-                case SDL_Keycode.SDLK_d: case SDL_Keycode.SDLK_RIGHT:
-                    app.Bunny.Right = false;
-                    break;
-            }
-            // SDL_FlushEvents(SDL_EventType.SDL_FIRSTEVENT, SDL_EventType.SDL_LASTEVENT);
-        }
-    
-        public static void UpdateApp(App app)
-        {
-            app.Bunny.UpdatePos(app);
-        }
-
-        public static void Render(App app)
-        {
-            // Clears the current render surface.
-            SDL_RenderClear(app.Renderer);
-
-            // Render bagground tiles
-            SDL_RenderCopy(app.Renderer, app.BG, IntPtr.Zero, IntPtr.Zero);
-
-            // Render eggs at different coords
-            int e = 0;
-            var rec = new SDL_Rect();
-            foreach (var egg in app.Eggs)
-            {
-                rec = new SDL_Rect(){ h = app.TileSize, w = app.TileSize, x = app.TileSize*e++ };
-                SDL_RenderCopy(app.Renderer, egg, IntPtr.Zero, ref rec);
-            }
-
-            // Render Bunny
-            SDL_RenderCopy(app.Renderer, app.Bunny.Texture, IntPtr.Zero, ref app.Bunny.Pos);
-
-            // Render Bump
-            rec = new SDL_Rect() { h = 11, w = app.TileSize, x = app.TileSize*e++ };
-            SDL_RenderCopy(app.Renderer, app.EarthBump, IntPtr.Zero, ref rec);
-
-            // Switches out the currently presented render surface with the one we just did work on.
-            SDL_RenderPresent(app.Renderer);
-        }
-
         public static void CleanUp(App app)
         {
+            foreach(var egg in app.Eggs) SDL_DestroyTexture(egg);
+            foreach(var bump in app.Bumps) bump.Clean();
+            app.EarthBump.Clean();
+            app.Bunny.Clean();
+            SDL_DestroyTexture(app.BG);
+
             SDL_DestroyRenderer(app.Renderer);
             SDL_DestroyWindow(app.Window);
             SDL_Quit();
@@ -148,10 +67,12 @@ namespace Easter.Core
         {
             // Initilizes SDL
             if (SDL_Init(flags) < 0)
-            {
                 Console.WriteLine($"There was an issue initializing SDL. {SDL_GetError()}");
-            }
-        }
+
+            // Initialize TTF
+            if (TTF_Init() < 0)
+                Console.WriteLine($"There was an issue initializing TTF. {SDL_GetError()}");
+        }   
     
         public static IntPtr CreateImgSurface(string img)
         {
@@ -183,16 +104,35 @@ namespace Easter.Core
             SDL_SetRenderTarget(renderer, tex);
             SDL_RenderCopy(renderer, img, ref src, ref dst);
             SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
+
             SDL_SetRenderTarget(renderer, p);
+            SDL_DestroyTexture(img);
             return tex;
         }
     
-        public static void BlockingBorders(App app, ref SDL_Rect rec)
+        public static IntPtr CopyTexture(IntPtr renderer, IntPtr texture)
         {
-            if (rec.x < 0) rec.x = 0;
-            if (rec.x + rec.w > app.Width) rec.x = app.Width - rec.w;
-            if (rec.y < 0) rec.y = 0;
-            if (rec.y + rec.h > app.Height) rec.y = app.Height - rec.h;
+            int w, h;
+            SDL_QueryTexture(texture, out _, out _, out w, out h);
+            IntPtr tex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_UNKNOWN, 2, w, h);
+
+            var p = SDL_GetRenderTarget(renderer);
+            SDL_SetRenderTarget(renderer, tex);
+            SDL_RenderCopy(renderer, texture, IntPtr.Zero, IntPtr.Zero);
+            SDL_SetRenderTarget(renderer, p);
+
+            SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
+            return tex;
         }
+    
+        public static IntPtr OpenFont(int size)
+        {
+            var font = TTF_OpenFont("res/font/easter.ttf", size);
+            if (font == IntPtr.Zero)
+                Console.WriteLine("Font was not found. SDL_Error: " + SDL_GetError());
+            
+            return font;
+        }  
+    
     }
 }

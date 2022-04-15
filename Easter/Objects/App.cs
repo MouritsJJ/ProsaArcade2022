@@ -14,18 +14,27 @@ namespace Easter.Objects
             MaxBumps = maxBumps;
         }
 
+        // Resources for the game
         public IntPtr Window { get; set; }
         public IntPtr Renderer { get; set; }
         public IntPtr BG { get; set; }
-        public IntPtr EarthBump { get; set; }
-        public List<IntPtr> Eggs { get; set; } = new List<IntPtr>();
         public List<Bump> Bumps { get; set; } = new List<Bump>();
+        public Bump EarthBump { get; set; } = new Bump();
+        public ulong LastBump { get; set; } = 0;
+        public List<IntPtr> Eggs { get; set; } = new List<IntPtr>();
+        public readonly int[] EggPoints = { 1, 2, 5, 10, 30, 50 };
+        public Random Rng { get; set; } = new Random();
+        public Bunny Bunny { get; set; } = new Bunny();
+
+        // Information about the App
         public int Width { get; set; }
         public int Height { get; set; }
         public int TileSize { get; set; }
         public int Velocity { get; set; }
         public int FPS { get; set; }
         public int MaxBumps { get; set; }
-        public Bunny Bunny { get; set; } = new Bunny();
+        public ulong Seconds { get; set; }
+        public uint Frames { get; set; }
+        public int Points { get; set; } = 0;
     }
 }

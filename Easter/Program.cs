@@ -1,6 +1,7 @@
 ﻿using static SDL2.SDL;
 using static Easter.Core.Utilities;
 using static Easter.Core.StartFunc;
+using static Easter.Core.Game;
 using Easter.Objects;
 
 namespace Easter
@@ -10,7 +11,8 @@ namespace Easter
         public static void Main(string[] args)
         {
             bool running = true;
-            App app = new App(1280, 960, 40, 8, 60, 5);
+            App app = new App(width: 1280, height: 960, tileSize: 40, 
+                velocity: 8, fPS: 60, maxBumps: 5);
             Setup(app);
             LoadResources(app);
 
@@ -18,6 +20,7 @@ namespace Easter
             while (running)
             {
                 tick = SDL_GetTicks();
+                if (++app.Frames == app.FPS) { app.Seconds++; app.Frames = 0; }
 
                 PollEvents(ref running, app);
                 UpdateApp(app);

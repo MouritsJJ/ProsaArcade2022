@@ -1,5 +1,5 @@
 using static SDL2.SDL;
-using static Easter.Core.Utilities;
+using static Easter.Core.Game;
 
 namespace Easter.Objects
 {
@@ -32,6 +32,15 @@ namespace Easter.Objects
             if (VelY > 0) Texture = South;
             if (VelY < 0) Texture = North;
             BlockingBorders(app, ref Pos);
+        }
+    
+        public void Clean()
+        {
+            SDL_DestroyTexture(Texture);
+            SDL_DestroyTexture(East);
+            SDL_DestroyTexture(West);
+            SDL_DestroyTexture(North);
+            SDL_DestroyTexture(South);
         }
     }
 }
