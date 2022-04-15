@@ -20,7 +20,7 @@ namespace Easter.Objects
         public IntPtr BG { get; set; }
         public List<Bump> Bumps { get; set; } = new List<Bump>();
         public Bump EarthBump { get; set; } = new Bump();
-        public ulong LastBump { get; set; } = 0;
+        public int LastBump { get; set; } = 0;
         public List<IntPtr> Eggs { get; set; } = new List<IntPtr>();
         public readonly int[] EggPoints = { 1, 2, 5, 10, 30, 50 };
         public Random Rng { get; set; } = new Random();

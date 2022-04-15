@@ -13,7 +13,7 @@ namespace Easter.Core
             app.Bunny.UpdatePos(app);
 
             // Generate bumps
-            if (app.Bumps.Count < app.MaxBumps && app.Seconds - app.LastBump > 1)
+            if (app.Bumps.Count < app.MaxBumps && ((int)app.Seconds * app.FPS + app.Frames) - app.LastBump > 10)
             {
                 SDL_Rect rec = new SDL_Rect{ w = app.EarthBump.Pos.w, h = app.EarthBump.Pos.h, 
                     x = app.Rng.Next(0, app.Width - app.EarthBump.Pos.w),
@@ -26,18 +26,12 @@ namespace Easter.Core
                     Egg = CopyTexture(app.Renderer, app.Eggs[egg]),
                     Points = app.EggPoints[egg]
                 });
-                app.LastBump = app.Seconds;
+                app.LastBump = (int)((int)app.Seconds * app.FPS + app.Frames);
             }
 
-            // Detect bump collisions
+            // Update bumps
             for (int b = 0; b < app.Bumps.Count; ++b)
-                if (CollisionDetection(app.Bumps[b].Pos, app.Bunny.Pos))
-                {
-                    app.Points += app.Bumps[b].Points;
-                    app.Bumps[b].Clean();
-                    app.Bumps.RemoveAt(b--);
-                }
-            
+                if (app.Bumps[b].Update(app)) app.Bumps.RemoveAt(b--);
 
         }
 

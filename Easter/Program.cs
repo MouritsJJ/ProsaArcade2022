@@ -12,7 +12,7 @@ namespace Easter
         {
             bool running = true;
             App app = new App(width: 1280, height: 960, tileSize: 40, 
-                velocity: 8, fPS: 60, maxBumps: 5);
+                velocity: 8, fPS: 60, maxBumps: 15);
             Setup(app);
             LoadResources(app);
 
