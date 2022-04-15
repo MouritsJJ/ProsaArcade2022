@@ -70,6 +70,8 @@ namespace Easter.Objects
 
         public void Clean()
         {
+            SDL_DestroyTexture(MenuTitle);
+            SDL_DestroyTexture(MenuTitle1);
             SDL_DestroyTexture(SecondsTitle);
 
             SDL_DestroyTexture(Seconds30);
