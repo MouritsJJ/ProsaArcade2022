@@ -1,4 +1,5 @@
 using static SDL2.SDL;
+using static SDL2.SDL_mixer;
 using static Easter.Core.Game;
 
 namespace Easter.Objects
@@ -20,6 +21,7 @@ namespace Easter.Objects
             // Collision detection
             if (!collided && CollisionDetection(Pos, app.Bunny.Pos))
             {
+                Mix_PlayChannel(-1, app.Egg_Sound, 0);
                 SDL_DestroyTexture(Texture);
                 Texture = Egg;
                 SDL_QueryTexture(Texture, out _, out _, out int w, out int h);

@@ -1,4 +1,5 @@
 ﻿using static SDL2.SDL;
+using static SDL2.SDL_mixer;
 using static Easter.Core.Utilities;
 using static Easter.Core.StartFunc;
 using static Easter.Core.Game;
@@ -17,6 +18,9 @@ namespace Easter
             LoadResources(app);
 
             uint tick, wait;
+
+            Mix_PlayMusic(app.BG_Music, -1);
+            Mix_VolumeMusic(20);
             while (running)
             {
                 tick = SDL_GetTicks();

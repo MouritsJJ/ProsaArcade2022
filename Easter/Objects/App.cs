@@ -18,6 +18,9 @@ namespace Easter.Objects
         public IntPtr Window { get; set; }
         public IntPtr Renderer { get; set; }
         public IntPtr BG { get; set; }
+        public IntPtr BG_Music { get; set; }
+        public IntPtr Egg_Sound { get; set; }
+        public IntPtr Menu_Sound { get; set; }
         public List<Bump> Bumps { get; set; } = new List<Bump>();
         public Bump EarthBump { get; set; } = new Bump();
         public int LastBump { get; set; } = 0;

@@ -1,5 +1,6 @@
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
+using static SDL2.SDL_mixer;
 using static Easter.Core.Utilities;
 using Easter.Objects;
 
@@ -14,6 +15,7 @@ namespace Easter.Core
             CreateBG(app);
             LoadBunny(app);
             LoadBump(app);
+            LoadAudio(app);
         }
        
         private static void CreateBG(App app)
@@ -131,6 +133,16 @@ namespace Easter.Core
                 new SDL_Rect() { w = 40, h = 11 },
                 path);
             app.EarthBump.Pos = new SDL_Rect() { w = 40, h = 11 };
+        }
+    
+        private static void LoadAudio(App app)
+        {
+            Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024);
+            app.BG_Music = Mix_LoadMUS("res/audio/easter.wav");
+            if (app.BG_Music == IntPtr.Zero)
+                Console.WriteLine("Could not load music. SDL Error: " + SDL_GetError());
+            app.Egg_Sound = Mix_LoadWAV("res/audio/egg.wav");
+            app.Menu_Sound = Mix_LoadWAV("res/audio/menu.wav");
         }
     }
 }

@@ -1,6 +1,7 @@
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_ttf;
+using static SDL2.SDL_mixer;
 using Easter.Objects;
 
 namespace Easter.Core
@@ -9,7 +10,7 @@ namespace Easter.Core
     {
         public static void Setup(App app) 
         {
-            Init(SDL_INIT_VIDEO);
+            Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
             app.Window = CreateWindow(app.Width, app.Height);
             app.Renderer = CreateRenderer(app.Window);
         }
@@ -21,6 +22,10 @@ namespace Easter.Core
             app.EarthBump.Clean();
             app.Bunny.Clean();
             SDL_DestroyTexture(app.BG);
+
+            Mix_FreeMusic(app.BG_Music);
+            Mix_FreeChunk(app.Egg_Sound);
+            Mix_FreeChunk(app.Menu_Sound);
 
             SDL_DestroyRenderer(app.Renderer);
             SDL_DestroyWindow(app.Window);
