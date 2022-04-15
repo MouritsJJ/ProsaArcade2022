@@ -1,4 +1,5 @@
 using static SDL2.SDL;
+using static SDL2.SDL_mixer;
 
 namespace Easter.Objects
 {
@@ -40,5 +41,21 @@ namespace Easter.Objects
         public int Frames { get; set; }
         public int Points { get; set; } = 0;
         public int GameTime { get; set; }
+
+        public void Clean()
+        {
+            foreach(var egg in Eggs) SDL_DestroyTexture(egg);
+            foreach(var bump in Bumps) bump.Clean();
+            EarthBump.Clean();
+            Bunny.Clean();
+            SDL_DestroyTexture(BG);
+
+            Mix_FreeMusic(BG_Music);
+            Mix_FreeChunk(Egg_Sound);
+            Mix_FreeChunk(Menu_Sound);
+
+            SDL_DestroyRenderer(Renderer);
+            SDL_DestroyWindow(Window);
+        }
     }
 }

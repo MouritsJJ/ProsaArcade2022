@@ -27,21 +27,9 @@ namespace Easter
             GameMode(ref running, app, menu);
 
             // Main game loop
-            uint tick, wait;
-            while (running && app.Seconds < app.GameTime)
-            {
-                tick = SDL_GetTicks();
-                if (++app.Frames == app.FPS) { app.Seconds++; app.Frames = 0; }
+            GameLoop(ref running, app, menu);
 
-                PollEvents(ref running, app);
-                UpdateApp(app);
-                Render(app);
-
-                wait = (uint)(1000 / app.FPS) - (SDL_GetTicks() - tick);
-                SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
-            }
-
-            CleanUp(app);
+            CleanUp(app, menu);
         }
         
     }

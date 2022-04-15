@@ -7,7 +7,24 @@ namespace Easter.Core
 {
     public static class Game
     {
-        public static void UpdateApp(App app)
+        public static void GameLoop(ref bool running, App app, Menu menu)
+        {
+            uint tick, wait;
+            while (running && app.Seconds < app.GameTime)
+            {
+                tick = SDL_GetTicks();
+                if (++app.Frames == app.FPS) { app.Seconds++; app.Frames = 0; }
+
+                PollEvents(ref running, app);
+                UpdateApp(app);
+                Render(app);
+
+                wait = (uint)(1000 / app.FPS) - (SDL_GetTicks() - tick);
+                SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
+            }
+        }
+
+        private static void UpdateApp(App app)
         {
             // Move bunny
             app.Bunny.UpdatePos(app);
@@ -35,7 +52,7 @@ namespace Easter.Core
 
         }
 
-        public static void Render(App app)
+        private static void Render(App app)
         {
             // Clears the current render surface.
             SDL_RenderClear(app.Renderer);
@@ -64,7 +81,7 @@ namespace Easter.Core
             SDL_RenderPresent(app.Renderer);
         }
 
-        public static void PollEvents(ref bool running, App app)
+        private static void PollEvents(ref bool running, App app)
         {
             // Check to see if there are any events and continue to do so until the queue is empty.
             SDL_PollEvent(out SDL_Event e);
@@ -141,7 +158,7 @@ namespace Easter.Core
             return false;
         }
     
-        public static int DetermineEgg(App app)
+        private static int DetermineEgg(App app)
         {
             int c = app.Rng.Next(0, 1000);
             if (c < 5)      return 5;

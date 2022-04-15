@@ -15,20 +15,10 @@ namespace Easter.Core
             app.Renderer = CreateRenderer(app.Window);
         }
     
-        public static void CleanUp(App app)
+        public static void CleanUp(App app, Menu menu)
         {
-            foreach(var egg in app.Eggs) SDL_DestroyTexture(egg);
-            foreach(var bump in app.Bumps) bump.Clean();
-            app.EarthBump.Clean();
-            app.Bunny.Clean();
-            SDL_DestroyTexture(app.BG);
-
-            Mix_FreeMusic(app.BG_Music);
-            Mix_FreeChunk(app.Egg_Sound);
-            Mix_FreeChunk(app.Menu_Sound);
-
-            SDL_DestroyRenderer(app.Renderer);
-            SDL_DestroyWindow(app.Window);
+            app.Clean();
+            menu.Clean();
             SDL_Quit();
         }
 
