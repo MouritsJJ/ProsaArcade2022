@@ -1,4 +1,5 @@
 using static SDL2.SDL;
+using static SDL2.SDL_mixer;
 using static Easter.Core.Game;
 
 namespace Easter.Objects
@@ -60,7 +61,11 @@ namespace Easter.Objects
             } 
             else Seconds120 =  Seconds120Standard;
 
-            if (clicked) running = false;
+            if (clicked) 
+            {
+                running = false;
+                Mix_PlayChannel(-1, app.Menu_Sound, 0);
+            }
         }
 
         public void Clean()
