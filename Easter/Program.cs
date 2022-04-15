@@ -11,17 +11,24 @@ namespace Easter
     {
         public static void Main(string[] args)
         {
+            // Setup of game
             bool running = true;
             App app = new App(width: 1280, height: 960, tileSize: 40, 
                 velocity: 8, fPS: 60, maxBumps: 15);
+            Menu menu = new Menu();
             Setup(app);
-            LoadResources(app);
+            LoadResources(app, menu);
 
-            uint tick, wait;
-
+            // Start music
             Mix_PlayMusic(app.BG_Music, -1);
             Mix_VolumeMusic(20);
-            while (running)
+
+            // Choose gamemode
+            GameMode(ref running, app, menu);
+
+            // Main game loop
+            uint tick, wait;
+            while (running && app.Seconds < app.GameTime)
             {
                 tick = SDL_GetTicks();
                 if (++app.Frames == app.FPS) { app.Seconds++; app.Frames = 0; }

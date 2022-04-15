@@ -36,8 +36,9 @@ namespace Easter.Objects
         public int Velocity { get; set; }
         public int FPS { get; set; }
         public int MaxBumps { get; set; }
-        public ulong Seconds { get; set; }
-        public uint Frames { get; set; }
+        public int Seconds { get; set; }
+        public int Frames { get; set; }
         public int Points { get; set; } = 0;
+        public int GameTime { get; set; }
     }
 }

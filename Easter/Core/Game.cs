@@ -116,7 +116,6 @@ namespace Easter.Core
                     app.Bunny.Right = false;
                     break;
             }
-            // SDL_FlushEvents(SDL_EventType.SDL_FIRSTEVENT, SDL_EventType.SDL_LASTEVENT);
         }
     
         public static void BlockingBorders(App app, ref SDL_Rect rec)
