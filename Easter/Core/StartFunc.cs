@@ -67,6 +67,8 @@ namespace Easter.Core
 
             // Render menu title
             SDL_RenderCopy(app.Renderer, menu.MenuTitle, IntPtr.Zero, ref menu.MenuTitlePos);
+            SDL_RenderCopy(app.Renderer, menu.MenuTitle1, IntPtr.Zero, ref menu.MenuTitlePos1);
+            SDL_RenderCopy(app.Renderer, menu.SecondsTitle, IntPtr.Zero, ref menu.SecondsTitlePos);
             
             // Render buttons
             SDL_RenderCopy(app.Renderer, menu.Seconds30, IntPtr.Zero, ref menu.Seconds30Pos);
@@ -209,10 +211,19 @@ namespace Easter.Core
             var font = OpenFont(120);
 
             // Menu title
-            SDL_Color color = new SDL_Color() { r = 13, g = 109, b = 253, a = 255 };
-            menu.MenuTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Seconds", color));
+            SDL_Color color = new SDL_Color() { r = 214, g = 51, b = 132, a = 255 };
+            menu.MenuTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Easter", color));
             SDL_QueryTexture(menu.MenuTitle, out _, out _, out int w, out int h);
-            menu.MenuTitlePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = app.Height - 8*app.TileSize };
+            menu.MenuTitlePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 2*app.TileSize };
+            menu.MenuTitle1 = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Time Attack", color));
+            SDL_QueryTexture(menu.MenuTitle1, out _, out _, out w, out h);
+            menu.MenuTitlePos1 = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = h + 3*app.TileSize };
+
+            // Seconds title
+            color = new SDL_Color() { r = 13, g = 109, b = 253, a = 255 };
+            menu.SecondsTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Seconds", color));
+            SDL_QueryTexture(menu.SecondsTitle, out _, out _, out w, out h);
+            menu.SecondsTitlePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = app.Height - 8*app.TileSize };
 
             // 30 seconds
             color = new SDL_Color() { r = 255, g = 255, b = 255, a = 255 };

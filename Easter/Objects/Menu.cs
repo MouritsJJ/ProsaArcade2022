@@ -7,6 +7,11 @@ namespace Easter.Objects
     {
         public IntPtr MenuTitle { get; set; }
         public SDL_Rect MenuTitlePos = new SDL_Rect();
+        public IntPtr MenuTitle1 { get; set; }
+        public SDL_Rect MenuTitlePos1 = new SDL_Rect();
+
+        public IntPtr SecondsTitle { get; set; }
+        public SDL_Rect SecondsTitlePos = new SDL_Rect();
 
         public IntPtr Seconds30 { get; set; }
         public IntPtr Seconds30Standard { get; set; }
@@ -60,7 +65,7 @@ namespace Easter.Objects
 
         public void Clean()
         {
-            SDL_DestroyTexture(MenuTitle);
+            SDL_DestroyTexture(SecondsTitle);
 
             SDL_DestroyTexture(Seconds30);
             SDL_DestroyTexture(Seconds30Standard);
