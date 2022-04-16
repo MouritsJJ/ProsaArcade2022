@@ -1,9 +1,9 @@
 # ProsaDwarfs
 This a reposetory for the CodeArcade Challenge presented by Prosa.\
-The 'Resultatvideo' is a demonstration of running the program. The video is recorded in the MOV container format, which most media players support including VLC.\
+The 'Resultatvideo' is a demonstration of running the program. The video is recorded in the MOV container format, which most media players support including VLC.
 
-## Depencies
-This challenge is written in C# and uses .NET 6.0. 
+## Dependencies
+This challenge is written in C# and uses .NET 6.0.
 
 ## Running
 The challenge can be run using the command: `dotnet run` with the .NET CLI installed and being stationed in the folder with the `.csproj` file.
