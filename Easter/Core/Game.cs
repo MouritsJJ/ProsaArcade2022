@@ -25,6 +25,8 @@ namespace Easter.Core
                 SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
             }
 
+            FadeOut(ref running, app);
+
             // Reset bunny
             app.Bunny.Texture = app.Bunny.South;
             app.Bunny.Pos = new SDL_Rect()
@@ -182,5 +184,46 @@ namespace Easter.Core
             return 0;
         }
 
+        private static void FadeOut(ref bool running, App app)
+        {
+            int alpha = 255, frame = 0;
+
+            uint tick, wait;
+            while (running && alpha > 0)
+            {
+                tick = SDL_GetTicks();
+                if (++frame % 2 == 0) alpha = Math.Max(alpha - 8, 0);
+
+                // Check events
+                SDL_PollEvent(out SDL_Event e);
+                CheckQuit(ref running, e);
+
+                // Update 
+                for (int b = 0; b < app.Bumps.Count; ++b)
+                {
+                    if (app.Bumps[b].Update(app)) app.Bumps.RemoveAt(b--);
+                    else if (!app.Bumps[b].collided) SDL_SetTextureAlphaMod(app.Bumps[b].Texture, (byte)alpha);
+                }
+                
+                SDL_SetTextureAlphaMod(app.Bunny.Texture, (byte)alpha);
+
+                // Render
+                SDL_RenderClear(app.Renderer);
+
+                SDL_RenderCopy(app.Renderer, app.BG, IntPtr.Zero, IntPtr.Zero);
+                SDL_RenderCopy(app.Renderer, app.Bunny.Texture, IntPtr.Zero, ref app.Bunny.Pos);
+
+                // Render Bumps
+                foreach (Bump b in app.Bumps)
+                    SDL_RenderCopy(app.Renderer, b.Texture, IntPtr.Zero, ref b.Pos);
+
+                SDL_RenderPresent(app.Renderer);
+
+                wait = (uint)(1000 / app.FPS) - (SDL_GetTicks() - tick);
+                SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
+            }
+
+            SDL_SetTextureAlphaMod(app.Bunny.Texture, 255);
+        }
     }
 }

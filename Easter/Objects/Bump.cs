@@ -14,7 +14,7 @@ namespace Easter.Objects
         private int Frame = 0;
         private byte alpha = 255;
         
-        private bool collided = false;
+        public bool collided { get; private set; } = false;
 
         public bool Update(App app)
         {
