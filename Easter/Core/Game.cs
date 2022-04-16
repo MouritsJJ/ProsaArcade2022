@@ -2,6 +2,7 @@ using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 using static Easter.Core.Utilities;
 using static Easter.Objects.Colors;
+using static Easter.Objects.Fonts;
 using Easter.Objects;
 
 namespace Easter.Core
@@ -72,20 +73,17 @@ namespace Easter.Core
 
             // Count down seconds
             int sec = app.GameTime - app.Seconds;
-            var font = OpenFont(app.TileSize);
-            var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, sec.ToString(), White));
+            var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(SmallFont, sec.ToString(), White));
             SDL_QueryTexture(tex, out _, out _, out int w, out int h);
             var pos = new SDL_Rect() { w = w, h = h, y = 0, x = app.Width - 8*app.TileSize - w };
             SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref pos);
 
             // Render score
-            font = OpenFont(app.TileSize);
-            tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, app.Points.ToString(), Yellow));
+            tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(SmallFont, app.Points.ToString(), Yellow));
             SDL_QueryTexture(tex, out _, out _, out w, out h);
             SDL_Rect rec = new SDL_Rect() { w = w, h = h, y = 0, x = app.Width - (app.TileSize + w + 5) };
             SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref rec);
             SDL_DestroyTexture(tex);
-            TTF_CloseFont(font);
 
             // Render Bumps
             foreach (Bump b in app.Bumps)

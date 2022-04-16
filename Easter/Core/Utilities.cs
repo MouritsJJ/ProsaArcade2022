@@ -1,7 +1,6 @@
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_ttf;
-using static SDL2.SDL_mixer;
 using Easter.Objects;
 
 namespace Easter.Core

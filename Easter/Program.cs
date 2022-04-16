@@ -1,5 +1,4 @@
-﻿using static SDL2.SDL;
-using static SDL2.SDL_mixer;
+﻿using static SDL2.SDL_mixer;
 using static Easter.Core.Utilities;
 using static Easter.Core.StartFunc;
 using static Easter.Core.EndFunc;

@@ -3,6 +3,7 @@ using static SDL2.SDL_ttf;
 using static SDL2.SDL_mixer;
 using static Easter.Core.Utilities;
 using static Easter.Objects.Colors;
+using static Easter.Objects.Fonts;
 using Easter.Objects;
 
 namespace Easter.Core
@@ -107,27 +108,26 @@ namespace Easter.Core
             
             // Add score eggs
             IntPtr fontTex;
-            var font = OpenFont(app.TileSize);
             for (int e = 0; e < app.EggPoints.Count(); ++e)
             {
                 rec = new SDL_Rect() { h = app.TileSize, w = app.TileSize, y = 0,
                 x = e < 3 ? 3*app.TileSize*e : 3*app.TileSize*3 + 4*app.TileSize*(e - 3) };
                 SDL_RenderCopy(app.Renderer, app.Eggs[e], IntPtr.Zero, ref rec);
 
-                fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, app.EggPoints[e].ToString(), White));
+                fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(SmallFont, app.EggPoints[e].ToString(), White));
                 SDL_QueryTexture(fontTex, out _, out _, out w, out h);
                 rec = new SDL_Rect() { w = w, h = h, x = rec.x + app.TileSize + 5, y = 0 };
                 SDL_RenderCopy(app.Renderer, fontTex, IntPtr.Zero, ref rec);
             }
 
             // Add Scoring P
-            fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "p", Lightblue));
+            fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(SmallFont, "p", Lightblue));
             SDL_QueryTexture(fontTex, out _, out _, out w, out h);
             rec = new SDL_Rect() { h = h, w = w, y = 0, x = app.Width - w };
             SDL_RenderCopy(app.Renderer, fontTex, IntPtr.Zero, ref rec);
 
             // Add seconds counter
-            fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "s", Lightblue));
+            fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(SmallFont, "s", Lightblue));
             SDL_QueryTexture(fontTex, out _, out _, out w, out h);
             rec = new SDL_Rect() { h = h, w = w, y = 0, x = app.Width - w - 7*app.TileSize };
             SDL_RenderCopy(app.Renderer, fontTex, IntPtr.Zero, ref rec);
@@ -137,7 +137,6 @@ namespace Easter.Core
 
             SDL_DestroyTexture(imgTex);
             SDL_DestroyTexture(fontTex);
-            TTF_CloseFont(font);
 
             app.BG = texture;
         }
@@ -215,54 +214,46 @@ namespace Easter.Core
     
         private static void CreateStartMenu(App app, Menu menu)
         {
-            // Open font
-            var font = OpenFont(120);
-
             // Menu title
-            menu.MenuTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Easter", Pink));
+            menu.MenuTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "Easter", Pink));
             SDL_QueryTexture(menu.MenuTitle, out _, out _, out int w, out int h);
             menu.MenuTitlePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 2*app.TileSize };
-            menu.MenuTitle1 = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Time Attack", Pink));
+            menu.MenuTitle1 = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "Time Attack", Pink));
             SDL_QueryTexture(menu.MenuTitle1, out _, out _, out w, out h);
             menu.MenuTitlePos1 = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = h + 3*app.TileSize };
 
             // Seconds title
-            menu.SecondsTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Seconds", DarkBlue));
+            menu.SecondsTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "Seconds", DarkBlue));
             SDL_QueryTexture(menu.SecondsTitle, out _, out _, out w, out h);
             menu.SecondsTitlePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = app.Height - 8*app.TileSize };
 
             // 30 seconds
-            menu.Seconds30Standard = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "30", White));
-            menu.Seconds30Highlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "30", DarkBlue));
+            menu.Seconds30Standard = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "30", White));
+            menu.Seconds30Highlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "30", DarkBlue));
             SDL_QueryTexture(menu.Seconds30Standard, out _, out _, out w, out h);
             menu.Seconds30Pos = new SDL_Rect() { w = w, h = h, x = 5*app.TileSize, y = app.Height - 4*app.TileSize };
             menu.Seconds30 = menu.Seconds30Standard;
 
             // 60 seconds
-            menu.Seconds60Standard = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "60", White));
-            menu.Seconds60Highlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "60", DarkBlue));
+            menu.Seconds60Standard = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "60", White));
+            menu.Seconds60Highlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "60", DarkBlue));
             SDL_QueryTexture(menu.Seconds60Standard, out _, out _, out w, out h);
             menu.Seconds60Pos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = app.Height - 4*app.TileSize };
             menu.Seconds60 = menu.Seconds60Standard;
 
             // 120 seconds
-            menu.Seconds120Standard = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "120", White));
-            menu.Seconds120Highlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "120", DarkBlue));
+            menu.Seconds120Standard = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "120", White));
+            menu.Seconds120Highlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "120", DarkBlue));
             SDL_QueryTexture(menu.Seconds120Standard, out _, out _, out w, out h);
             menu.Seconds120Pos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) - 3*app.TileSize, y = app.Height - 4*app.TileSize };
             menu.Seconds120 = menu.Seconds120Standard;
 
-            // Close font
-            TTF_CloseFont(font);
         }
     
         private static void CreateEndScreen(App app, EndMenu menu)
         {
-            // Open font
-            var font = OpenFont(120);
-
             // Score title
-            menu.ScoreTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Final Score", Pink));
+            menu.ScoreTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "Final Score", Pink));
             SDL_QueryTexture(menu.ScoreTitle, out _, out _, out int w, out int h);
             menu.ScoreTitlePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 2*app.TileSize };
 
@@ -289,14 +280,11 @@ namespace Easter.Core
             menu.EggsScorePos.Add(new SDL_Rect() { y = app.Height - 6*app.TileSize, x = app.Width - app.Width / 4 + app.TileSize / 2 });
 
             // New game
-            menu.NewGameStandard = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "New Game", White));
-            menu.NewGameHighlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "New Game", DarkBlue));
+            menu.NewGameStandard = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "New Game", White));
+            menu.NewGameHighlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, "New Game", DarkBlue));
             SDL_QueryTexture(menu.NewGameStandard, out _, out _, out w, out h);
             menu.NewGamePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = app.Height - 4*app.TileSize };
             menu.NewGame = menu.NewGameStandard;
-
-            // Close font
-            TTF_CloseFont(font);
         }
     
         private static void CountDown(ref bool running, App app)
@@ -318,13 +306,11 @@ namespace Easter.Core
                 SDL_RenderCopy(app.Renderer, app.BG, IntPtr.Zero, IntPtr.Zero);
                 SDL_RenderCopy(app.Renderer, app.Bunny.Texture, IntPtr.Zero, ref app.Bunny.Pos);
 
-                var font = OpenFont(120);
-                var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, seconds == 1 ? "GO" : (seconds - 1).ToString(), DarkBlue));
+                var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, seconds == 1 ? "GO" : (seconds - 1).ToString(), DarkBlue));
                 SDL_QueryTexture(tex, out _, out _, out int w, out int h);
                 var rec = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 8*app.TileSize };
                 SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref rec);
                 SDL_DestroyTexture(tex);
-                TTF_CloseFont(font);
 
                 SDL_RenderPresent(app.Renderer);
 
