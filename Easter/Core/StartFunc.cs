@@ -101,8 +101,9 @@ namespace Easter.Core
                     rec.y = h;
                     SDL_RenderCopy(app.Renderer, imgTex, IntPtr.Zero, ref rec);
                 }
+            
             // Add score eggs
-            IntPtr fontSurface, fontTex;
+            IntPtr fontTex;
             var font = OpenFont(app.TileSize);
             SDL_Color color = new SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
             for (int e = 0; e < app.EggPoints.Count(); ++e)
@@ -111,8 +112,7 @@ namespace Easter.Core
                 x = e < 3 ? 3*app.TileSize*e : 3*app.TileSize*3 + 4*app.TileSize*(e - 3) };
                 SDL_RenderCopy(app.Renderer, app.Eggs[e], IntPtr.Zero, ref rec);
 
-                fontSurface = TTF_RenderText_Blended(font, app.EggPoints[e].ToString(), color);
-                fontTex = CreateTexture(app.Renderer, fontSurface);
+                fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, app.EggPoints[e].ToString(), color));
                 SDL_QueryTexture(fontTex, out _, out _, out w, out h);
                 rec = new SDL_Rect() { w = w, h = h, x = rec.x + app.TileSize + 5, y = 0 };
                 SDL_RenderCopy(app.Renderer, fontTex, IntPtr.Zero, ref rec);
@@ -120,16 +120,23 @@ namespace Easter.Core
 
             // Add Scoring P
             color = new SDL_Color() { r = 0, g = 208, b = 255, a = 255 };
-            fontSurface = TTF_RenderText_Blended(font, "p", color);
-            fontTex = CreateTexture(app.Renderer, fontSurface);
+            fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "p", color));
             SDL_QueryTexture(fontTex, out _, out _, out w, out h);
             rec = new SDL_Rect() { h = h, w = w, y = 0, x = app.Width - w };
+            SDL_RenderCopy(app.Renderer, fontTex, IntPtr.Zero, ref rec);
+
+            // Add seconds counter
+            fontTex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "s", color));
+            SDL_QueryTexture(fontTex, out _, out _, out w, out h);
+            rec = new SDL_Rect() { h = h, w = w, y = 0, x = app.Width - w - 7*app.TileSize };
             SDL_RenderCopy(app.Renderer, fontTex, IntPtr.Zero, ref rec);
 
 
             SDL_SetRenderTarget(app.Renderer, p);
 
             SDL_DestroyTexture(imgTex);
+            SDL_DestroyTexture(fontTex);
+            TTF_CloseFont(font);
 
             app.BG = texture;
         }

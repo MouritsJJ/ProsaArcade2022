@@ -42,5 +42,11 @@ namespace Easter.Objects
             SDL_DestroyTexture(North);
             SDL_DestroyTexture(South);
         }
+    
+        public void Reset()
+        {
+            VelX = VelY = 0;
+            Up = Down = Left = Right = false;
+        }
     }
 }

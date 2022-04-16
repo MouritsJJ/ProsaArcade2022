@@ -22,6 +22,9 @@ namespace Easter.Core
                 wait = (uint)(1000 / app.FPS) - (SDL_GetTicks() - tick);
                 SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
             }
+
+            app.Reset();
+            app.Bunny.Reset();
         }
 
         private static void PollEvents(ref bool running, EndMenu menu)

@@ -44,6 +44,7 @@ namespace Easter.Objects
             {
                 running = false;
                 Mix_PlayChannel(-1, app.Menu_Sound, 0);
+                MouseClicked = false;
             }
         }
 

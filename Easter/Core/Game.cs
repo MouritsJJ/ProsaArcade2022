@@ -44,7 +44,7 @@ namespace Easter.Core
             {
                 SDL_Rect rec = new SDL_Rect{ w = app.EarthBump.Pos.w, h = app.EarthBump.Pos.h, 
                     x = app.Rng.Next(0, app.Width - app.EarthBump.Pos.w),
-                    y = app.Rng.Next(app.TileSize + app.EarthBump.Pos.h, app.Height) };
+                    y = app.Rng.Next(app.TileSize, app.Height - app.EarthBump.Pos.h) };
                 int egg = DetermineEgg(app);
                 app.Bumps.Add(new Bump() 
                 {
@@ -59,7 +59,6 @@ namespace Easter.Core
             // Update bumps
             for (int b = 0; b < app.Bumps.Count; ++b)
                 if (app.Bumps[b].Update(app)) app.Bumps.RemoveAt(b--);
-
         }
 
         private static void Render(App app)
@@ -70,11 +69,20 @@ namespace Easter.Core
             // Render bagground tiles
             SDL_RenderCopy(app.Renderer, app.BG, IntPtr.Zero, IntPtr.Zero);
 
-            // Render score
-            SDL_Color color = new SDL_Color() { r = 255, g = 231, b = 10, a = 255 };
+            // Count down seconds
+            int sec = app.GameTime - app.Seconds;
+            var color = new SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
             var font = OpenFont(app.TileSize);
-            var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, app.Points.ToString(), color));
+            var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, sec.ToString(), color));
             SDL_QueryTexture(tex, out _, out _, out int w, out int h);
+            var pos = new SDL_Rect() { w = w, h = h, y = 0, x = app.Width - 8*app.TileSize - w };
+            SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref pos);
+
+            // Render score
+            color = new SDL_Color() { r = 255, g = 231, b = 10, a = 255 };
+            font = OpenFont(app.TileSize);
+            tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, app.Points.ToString(), color));
+            SDL_QueryTexture(tex, out _, out _, out w, out h);
             SDL_Rect rec = new SDL_Rect() { w = w, h = h, y = 0, x = app.Width - (app.TileSize + w + 5) };
             SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref rec);
             SDL_DestroyTexture(tex);

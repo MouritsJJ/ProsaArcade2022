@@ -58,5 +58,13 @@ namespace Easter.Objects
             SDL_DestroyRenderer(Renderer);
             SDL_DestroyWindow(Window);
         }
+
+        public void Reset()
+        {
+            Frames = Seconds = LastBump = Points = 0;
+            EggCounts = new List<int>() { 0, 0, 0, 0, 0, 0 };
+            foreach(var bump in Bumps) bump.Clean();
+            Bumps.Clear();
+        }
     }
 }
