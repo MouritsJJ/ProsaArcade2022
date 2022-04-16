@@ -1,6 +1,6 @@
 # Easter Time Attack
 This a reposetory for the CodeArcade Challenge presented by Prosa.
-The 'Resultatvideo' is a demonstration of running the program. The video is recorded in the MOV container format, which most media players support including VLC.
+The 'Resultatvideo' is a demonstration of playing the game. The video is recorded in the MP4 video format, which most media players support including VLC.
 
 # Dependencies
 This challenge is written in C# and uses .NET 6.0 as well as the SDL2 package:

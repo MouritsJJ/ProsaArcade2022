@@ -306,11 +306,14 @@ namespace Easter.Core
                 SDL_RenderCopy(app.Renderer, app.BG, IntPtr.Zero, IntPtr.Zero);
                 SDL_RenderCopy(app.Renderer, app.Bunny.Texture, IntPtr.Zero, ref app.Bunny.Pos);
 
-                var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, seconds == 1 ? "GO" : (seconds - 1).ToString(), DarkBlue));
-                SDL_QueryTexture(tex, out _, out _, out int w, out int h);
-                var rec = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 8*app.TileSize };
-                SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref rec);
-                SDL_DestroyTexture(tex);
+                if (seconds >= 0)
+                {
+                    var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(BigFont, seconds == 1 ? "GO" : (seconds - 1).ToString(), DarkBlue));
+                    SDL_QueryTexture(tex, out _, out _, out int w, out int h);
+                    var rec = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 8*app.TileSize };
+                    SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref rec);
+                    SDL_DestroyTexture(tex);
+                }
 
                 SDL_RenderPresent(app.Renderer);
 
