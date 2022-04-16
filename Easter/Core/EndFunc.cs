@@ -23,6 +23,7 @@ namespace Easter.Core
                 SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
             }
 
+            endMenu.Reset();
             app.Reset();
             app.Bunny.Reset();
         }
@@ -34,10 +35,10 @@ namespace Easter.Core
             CheckQuit(ref running, e);
             switch (e.type)
             {
-                case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                case SDL_EventType.SDL_MOUSEBUTTONUP:
                     menu.MouseClicked = true;
                     break;
-                case SDL_EventType.SDL_MOUSEBUTTONUP:
+                default:
                     menu.MouseClicked = false;
                     break;
             }

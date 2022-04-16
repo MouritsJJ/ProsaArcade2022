@@ -60,5 +60,12 @@ namespace Easter.Objects
             SDL_DestroyTexture(NewGameStandard);
             SDL_DestroyTexture(NewGameHighlight);
         }
+
+        public void Reset()
+        {
+            Loaded = false;
+            foreach(var egg in EggsScore) SDL_DestroyTexture(egg);
+            EggsScore.Clear();
+        }
     }
 }

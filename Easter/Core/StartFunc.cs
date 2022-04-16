@@ -35,6 +35,8 @@ namespace Easter.Core
                 wait = (uint)(1000 / app.FPS) - (SDL_GetTicks() - tick);
                 SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
             }
+
+            CountDown(ref running, app);
         }
 
         private static void PollEvents(ref bool running, Menu menu)
@@ -44,10 +46,10 @@ namespace Easter.Core
             CheckQuit(ref running, e);
             switch (e.type)
             {
-                case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                case SDL_EventType.SDL_MOUSEBUTTONUP:
                     menu.MouseClicked = true;
                     break;
-                case SDL_EventType.SDL_MOUSEBUTTONUP:
+                default:
                     menu.MouseClicked = false;
                     break;
             }
@@ -307,6 +309,41 @@ namespace Easter.Core
 
             // Close font
             TTF_CloseFont(font);
+        }
+    
+        private static void CountDown(ref bool running, App app)
+        {
+            int seconds = 4, frame = 0;
+
+            uint tick, wait;
+            while (running && seconds > 0)
+            {
+                tick = SDL_GetTicks();
+                if (++frame == app.FPS) { seconds--; frame = 0; }
+
+                // Check to see if there are any events
+                SDL_PollEvent(out SDL_Event e);
+                CheckQuit(ref running, e);
+
+                // Render
+                SDL_RenderClear(app.Renderer);
+                SDL_RenderCopy(app.Renderer, app.BG, IntPtr.Zero, IntPtr.Zero);
+                SDL_RenderCopy(app.Renderer, app.Bunny.Texture, IntPtr.Zero, ref app.Bunny.Pos);
+
+                var font = OpenFont(120);
+                var color = new SDL_Color() { r = 13, g = 109, b = 253, a = 255 };
+                var tex = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, seconds == 1 ? "GO" : (seconds - 1).ToString(), color));
+                SDL_QueryTexture(tex, out _, out _, out int w, out int h);
+                var rec = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 8*app.TileSize };
+                SDL_RenderCopy(app.Renderer, tex, IntPtr.Zero, ref rec);
+                SDL_DestroyTexture(tex);
+                TTF_CloseFont(font);
+
+                SDL_RenderPresent(app.Renderer);
+
+                wait = (uint)(1000 / app.FPS) - (SDL_GetTicks() - tick);
+                SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
+            }
         }
     }
 }
