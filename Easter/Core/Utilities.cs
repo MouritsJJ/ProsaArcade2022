@@ -15,11 +15,22 @@ namespace Easter.Core
             app.Renderer = CreateRenderer(app.Window);
         }
     
-        public static void CleanUp(App app, Menu menu)
+        public static void CleanUp(App app, Menu menu, EndMenu endMenu)
         {
             app.Clean();
             menu.Clean();
+            endMenu.Clean();
             SDL_Quit();
+        }
+
+        public static void CheckQuit(ref bool running, SDL_Event e)
+        {
+            switch (e.type)
+            {
+                case SDL_EventType.SDL_QUIT:
+                    running = false;
+                    break;
+            }
         }
 
         public static IntPtr CreateWindow(int w, int h)

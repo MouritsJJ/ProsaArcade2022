@@ -28,6 +28,7 @@ namespace Easter.Objects
                 Pos = new SDL_Rect() { w = w, h = h, x = Pos.x, y = Pos.y };
                 collided = true;
                 app.Points += Points;
+                app.EggCounts[app.EggPoints.ToList().IndexOf(Points)]++;
             }
             // Move egg up
             if (collided && ++Frame < 30)

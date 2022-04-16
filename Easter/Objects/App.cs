@@ -27,6 +27,7 @@ namespace Easter.Objects
         public int LastBump { get; set; } = 0;
         public List<IntPtr> Eggs { get; set; } = new List<IntPtr>();
         public readonly int[] EggPoints = { 1, 2, 5, 10, 30, 50 };
+        public List<int> EggCounts { get; set; } = new List<int>() { 0, 0, 0, 0, 0, 0 };
         public Random Rng { get; set; } = new Random();
         public Bunny Bunny { get; set; } = new Bunny();
 

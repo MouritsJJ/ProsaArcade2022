@@ -9,14 +9,15 @@ namespace Easter.Core
     public static class StartFunc
     {
 
-        public static void LoadResources(App app, Menu menu)
+        public static void LoadResources(App app, Menu menu, EndMenu endMenu)
         {
             LoadEggs(app);
             CreateBG(app);
             LoadBunny(app);
             LoadBump(app);
             LoadAudio(app);
-            CreateMenu(app, menu);
+            CreateStartMenu(app, menu);
+            CreateEndScreen(app, endMenu);
         }
 
         public static void GameMode(ref bool running, App app, Menu menu)
@@ -27,7 +28,7 @@ namespace Easter.Core
             {
                 tick = SDL_GetTicks();
 
-                PollEvents(ref running, app, menu);
+                PollEvents(ref running, menu);
                 menu.Update(ref menuRunning, app);
                 RenderGameStart(app, menu);
 
@@ -36,15 +37,13 @@ namespace Easter.Core
             }
         }
 
-        private static void PollEvents(ref bool running, App app, Menu menu)
+        private static void PollEvents(ref bool running, Menu menu)
         {
-            // Check to see if there are any events and continue to do so until the queue is empty.
+            // Check to see if there are any events
             SDL_PollEvent(out SDL_Event e);
+            CheckQuit(ref running, e);
             switch (e.type)
             {
-                case SDL_EventType.SDL_QUIT:
-                    running = false;
-                    break;
                 case SDL_EventType.SDL_MOUSEBUTTONDOWN:
                     menu.MouseClicked = true;
                     break;
@@ -206,8 +205,9 @@ namespace Easter.Core
             app.Menu_Sound = Mix_LoadWAV("res/audio/menu.wav");
         }
     
-        private static void CreateMenu(App app, Menu menu)
+        private static void CreateStartMenu(App app, Menu menu)
         {
+            // Open font
             var font = OpenFont(120);
 
             // Menu title
@@ -251,6 +251,55 @@ namespace Easter.Core
             SDL_QueryTexture(menu.Seconds120Standard, out _, out _, out w, out h);
             menu.Seconds120Pos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) - 3*app.TileSize, y = app.Height - 4*app.TileSize };
             menu.Seconds120 = menu.Seconds120Standard;
+
+            // Close font
+            TTF_CloseFont(font);
+        }
+    
+        private static void CreateEndScreen(App app, EndMenu menu)
+        {
+            // Open font
+            var font = OpenFont(120);
+
+            // Score title
+            SDL_Color color = new SDL_Color() { r = 214, g = 51, b = 132, a = 255 };
+            menu.ScoreTitle = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "Final Score", color));
+            SDL_QueryTexture(menu.ScoreTitle, out _, out _, out int w, out int h);
+            menu.ScoreTitlePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = 2*app.TileSize };
+
+            // Eggs position
+            menu.EggsPos.Add(new SDL_Rect() { w = app.TileSize, h = app.TileSize,
+                y = app.Height - 8*app.TileSize, x = app.Width / 4 - app.TileSize });
+            menu.EggsPos.Add(new SDL_Rect() { w = app.TileSize, h = app.TileSize,
+                y = app.Height - 8*app.TileSize, x = app.Width / 2 - app.TileSize });
+            menu.EggsPos.Add(new SDL_Rect() { w = app.TileSize, h = app.TileSize,
+                y = app.Height - 8*app.TileSize, x = app.Width - app.Width / 4 - app.TileSize });
+            menu.EggsPos.Add(new SDL_Rect() { w = app.TileSize, h = app.TileSize,
+                y = app.Height - 6*app.TileSize, x = app.Width / 4 - app.TileSize });
+            menu.EggsPos.Add(new SDL_Rect() { w = app.TileSize, h = app.TileSize,
+                y = app.Height - 6*app.TileSize, x = app.Width / 2 - app.TileSize });
+            menu.EggsPos.Add(new SDL_Rect() { w = app.TileSize, h = app.TileSize,
+                y = app.Height - 6*app.TileSize, x = app.Width - app.Width / 4 - app.TileSize });
+            
+            // Eggs count position
+            menu.EggsScorePos.Add(new SDL_Rect() { y = app.Height - 8*app.TileSize, x = app.Width / 4 + app.TileSize / 2 });
+            menu.EggsScorePos.Add(new SDL_Rect() { y = app.Height - 8*app.TileSize, x = app.Width / 2 + app.TileSize / 2 });
+            menu.EggsScorePos.Add(new SDL_Rect() { y = app.Height - 8*app.TileSize, x = app.Width - app.Width / 4 + app.TileSize / 2 });
+            menu.EggsScorePos.Add(new SDL_Rect() { y = app.Height - 6*app.TileSize, x = app.Width / 4 + app.TileSize / 2 });
+            menu.EggsScorePos.Add(new SDL_Rect() { y = app.Height - 6*app.TileSize, x = app.Width / 2 + app.TileSize / 2 });
+            menu.EggsScorePos.Add(new SDL_Rect() { y = app.Height - 6*app.TileSize, x = app.Width - app.Width / 4 + app.TileSize / 2 });
+
+            // New game
+            color = new SDL_Color() { r = 255, g = 255, b = 255, a = 255 };
+            menu.NewGameStandard = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "New Game", color));
+            color = new SDL_Color() { r = 13, g = 109, b = 253, a = 255 };
+            menu.NewGameHighlight = CreateTexture(app.Renderer, TTF_RenderText_Blended(font, "New Game", color));
+            SDL_QueryTexture(menu.NewGameStandard, out _, out _, out w, out h);
+            menu.NewGamePos = new SDL_Rect() { w = w, h = h, x = (app.Width - w) / 2, y = app.Height - 4*app.TileSize };
+            menu.NewGame = menu.NewGameStandard;
+
+            // Close font
+            TTF_CloseFont(font);
         }
     }
 }

@@ -22,6 +22,16 @@ namespace Easter.Core
                 wait = (uint)(1000 / app.FPS) - (SDL_GetTicks() - tick);
                 SDL_Delay((uint)Math.Min(1000 / app.FPS, wait));
             }
+
+            // Reset bunny
+            app.Bunny.Texture = app.Bunny.South;
+            app.Bunny.Pos = new SDL_Rect()
+            {
+                h = 2*app.TileSize,
+                w = 2*app.TileSize,
+                x = (app.Width / 2) - app.TileSize,
+                y = (app.Height / 2) + app.TileSize
+            };
         }
 
         private static void UpdateApp(App app)
@@ -83,15 +93,13 @@ namespace Easter.Core
 
         private static void PollEvents(ref bool running, App app)
         {
-            // Check to see if there are any events and continue to do so until the queue is empty.
+            // Check to see if there are any events
             SDL_PollEvent(out SDL_Event e);
+            CheckQuit(ref running, e);
             bool keydown = false;
             bool keyup = false;
             switch (e.type)
             {
-                case SDL_EventType.SDL_QUIT:
-                    running = false;
-                    break;
                 case SDL_EventType.SDL_KEYDOWN:
                     keydown = true;
                     break;
