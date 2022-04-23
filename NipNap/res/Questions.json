@@ -1,0 +1,64 @@
+{
+    "Questions": {
+        "Vælg en farve": [
+            "Rød", "Grøn", "Blå", "Lilla", "Gul", "Pink", "Brun"
+        ],
+        "Vælg land": [
+            "Danmark", "Grækenland", "Frankrig", "Tyskland", "Spanien", "USA"
+        ],
+        "Vælg en sportsgren": [
+            "Badminton", "Fodbold", "Håndbold", "Svømning", "Atletik"
+        ],
+        "Vælg en by": [
+            "London", "New York", "Moskva", "Berlin", "Oslo", "København"
+        ],
+        "Vælg et møbel": [
+            "Stol", "Bord", "Sofa", "Skab", "Reol"
+        ],
+        "Vælg et køretøj": [
+            "Bil", "Motorcykel", "Cykel", "Løbehjul", "Fly"
+        ],
+        "Vælg et bilmærke": [
+            "Tesla", "Audi", "Suzuki", "Mercedes", "BMW"
+        ],
+        "Vælg en fodboldspiller": [
+            "Ronaldo", "Messi", "Daniel Agger"
+        ],
+        "Vælg en sangtitel": [
+            "Bad Habits", "Wildfire", "Poker Face", "Shape of You"
+        ],
+        "Vælg en filmtitel": [
+            "Spiderman 1", "Fantastiske Skabninger", "Sådan træner du din drage"
+        ],
+        "Vælg et vejnavn": [
+            "Vesterbro", "Nygade", "Rådhuspladsen"
+        ],
+        "Vælg en superhelt": [
+            "Supermand", "Batman", "Spiderman", "Doctor Strange", "Den grønne lygte"
+        ],
+        "Vælg et dyr": [
+            "Hund", "Kat", "Marsvin", "Delfin", "Ko", "Gris"
+        ],
+        "Vælg et haveredskab": [
+            "Rive", "Plæneklipper", "Skovl", "Spade", "Høtyv"
+        ],
+        "Vælg en kage": [
+            "Lagkage", "Brunsviger", "Spandauer", "Dagmartærte", "Hindbærsnitte"
+        ],
+        "Vælg en anime": [
+            "SAO", "My Hero Acadamia", "Arifureta", "Death Angel"
+        ],
+        "Vælg navnet på en gammel person": [
+            "Arne", "Svend", "Åge", "Margrethe", "Ludvig"
+        ],
+        "Vælg et spil": [
+            "Ludo", "Partners", "Codenames", "Exploding Kittens"
+        ],
+        "Vælg en plante": [
+            "Blomst", "Træ", "Busk", "Hæk", "Svamp"
+        ],
+        "Vælg en helligdag": [
+            "Juledag", "Nytårsdag", "Sankt Hans"
+        ]
+    }
+}

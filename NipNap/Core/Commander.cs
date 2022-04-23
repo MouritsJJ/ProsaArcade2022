@@ -14,11 +14,14 @@ namespace NipNap.Core
         public void Start()
         {
             running = true;
+            Nip.Reset();
 
             while (running)
             {
-                Nip.AskQuestion();
+                running = !Nip.AskQuestion();
             }
+
+            Nip.GetResult();
         }
     }
 }
