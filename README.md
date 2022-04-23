@@ -8,3 +8,6 @@ The first challenge in the arcade conducted from 4th of April to the 10th of Apr
 
 ## Easter
 The second challenge in the arcade conducted from the 11th of April to the 17th of April 2022.
+
+## NipNap
+The third challenge in the arcade conducted from the 18th of April to the 24nd of April 2022.
